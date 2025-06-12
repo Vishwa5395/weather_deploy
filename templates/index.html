@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Forecast</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 2rem; }
+    .container { background: white; padding: 2rem; border-radius: 8px; max-width: 600px; margin: auto; }
+    input, select { width: 100%; padding: 0.5rem; margin-top: 1rem; }
+    button { padding: 0.7rem 1.5rem; margin-top: 1rem; }
+    .result { margin-top: 2rem; background: #e0ffe0; padding: 1rem; border-radius: 5px; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Weather Forecast Predictor</h1>
+    <form method="post">
+      <label for="city">Select City:</label>
+      <select name="city" id="city" required>
+        {% for city in cities %}
+        <option value="{{ city }}">{{ city.title() }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="date">Forecast Date:</label>
+      <input type="date" name="date" id="date" required>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if prediction %}
+    <div class="result">
+      <h3>Prediction Result:</h3>
+      <p><strong>City:</strong> {{ prediction.city }}</p>
+      <p><strong>Date:</strong> {{ prediction.date }}</p>
+      <p><strong>Predicted Avg Temp:</strong> {{ prediction.temp_c }} °C</p>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
