@@ -29,9 +29,7 @@ weather_deploy/
 │ └── index.html # Frontend template (Jinja2)
 └── /static # (Optional) CSS/JS files
 
-yaml
-Copy
-Edit
+
 
 ---
 
@@ -52,9 +50,7 @@ pip install -r requirements.txt
 Place your city-wise weather CSV files inside the DATASETS/ directory. Each file should be named like cityname.csv and must include columns like DATE, TAVG, TMIN, TMAX.
 
 4. Run the App
-bash
-Copy
-Edit
+
 python app.py
 Visit http://127.0.0.1:5000 in your browser.
 
