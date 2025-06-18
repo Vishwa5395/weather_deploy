@@ -1,46 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Weather Forecast</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 2rem; }
-    .container { background: white; padding: 2rem; border-radius: 8px; max-width: 600px; margin: auto; }
-    input, select { width: 100%; padding: 0.5rem; margin-top: 1rem; }
-    button { padding: 0.7rem 1.5rem; margin-top: 1rem; }
-    .result { margin-top: 2rem; background: #e0ffe0; padding: 1rem; border-radius: 5px; }
-    .error { color: red; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Weather Forecast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        form {
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        select, input[type="date"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .result, .error {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .result {
+            background-color: #e0f7e9;
+            color: #2e7d32;
+        }
+        .error {
+            background-color: #fce4e4;
+            color: #c62828;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Weather Forecast Predictor</h1>
-    <form method="post">
-      <label for="city">Select City:</label>
-      <select name="city" id="city" required>
-        {% for city in cities %}
-        <option value="{{ city }}">{{ city.title() }}</option>
-        {% endfor %}
-      </select>
+    <h1>Weather Forecast</h1>
 
-      <label for="date">Forecast Date:</label>
-      <input type="date" name="date" id="date" required>
+    <form method="POST">
+        <label for="city">Select City:</label>
+        <select name="city" id="city" required>
+            <option value="">--Choose a city--</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city.title() }}</option>
+            {% endfor %}
+        </select>
 
-      <button type="submit">Predict</button>
+        <label for="date">Select Future Date:</label>
+        <input type="date" name="date" id="date" required min="{{ today }}">
+
+
+        <button type="submit">Get Forecast</button>
     </form>
 
-    {% if error %}
-    <p class="error">{{ error }}</p>
-    {% endif %}
-
     {% if prediction %}
-    <div class="result">
-      <h3>Prediction Result:</h3>
-      <p><strong>City:</strong> {{ prediction.city }}</p>
-      <p><strong>Date:</strong> {{ prediction.date }}</p>
-      <p><strong>Predicted Avg Temp:</strong> {{ prediction.temp_c }} °C</p>
-    </div>
+        <div class="result">
+            <h2>Forecast for {{ prediction.city }}</h2>
+            <p><strong>Date:</strong> {{ prediction.date }}</p>
+            <p><strong>Predicted Temperature:</strong> {{ prediction.temp_c }} °C</p>
+        </div>
+    {% elif error %}
+        <div class="error">
+            <p>{{ error }}</p>
+        </div>
     {% endif %}
-  </div>
 </body>
 </html>

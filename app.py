@@ -3,10 +3,11 @@ import pandas as pd
 import glob
 import os
 import joblib
-from datetime import timedelta
+from datetime import timedelta,date
 
 app = Flask(__name__)
 model = joblib.load('weather_model.pkl')
+# print("Model loaded successfully:", model)
 
 # Rebuild weather dataset (you might cache this in production)
 def prepare_weather_data():
@@ -71,7 +72,7 @@ def index():
         try:
             forecast_date = pd.to_datetime(date_str)
         except ValueError:
-            return render_template('index.html', cities=cities, error="Invalid date format.")
+            return render_template('index.html', cities=cities, prediction=prediction, today=date.today().isoformat())
 
         if city not in cities:
             return render_template('index.html', cities=cities, error="City not found.")
@@ -93,7 +94,12 @@ def index():
                     latest_row[f'month_avg_{col}'] = r_mean
                     latest_row[f'day_avg_{col}'] = r_mean
 
-            predicted_temp = model.predict(latest_row[predictors])[0]
+            try:
+                predicted_temp = model.predict(latest_row[predictors])[0]
+            except Exception as e:
+                print("Prediction error:", e)
+                return render_template('index.html', cities=cities, error="Model failed to make prediction.")
+
 
             for col in ['tavg', 'tmin', 'tmax']:
                 if col in latest_row.columns:
@@ -110,4 +116,4 @@ def index():
     return render_template('index.html', cities=cities, prediction=prediction)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
