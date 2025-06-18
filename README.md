@@ -15,24 +15,6 @@ A Flask-powered web application that predicts the **any future day's average tem
 
 ---
 
-##  Project Structure
-
-weather_deploy/
-│
-├── app.py # Flask application
-├── weather_model.pkl # Trained ML model (Ridge + Preprocessing Pipeline)
-├── /DATASETS # Folder with CSVs of historical weather data
-│ ├── delhi.csv
-│ ├── mumbai.csv
-│ └── ...
-├── /templates
-│ └── index.html # Frontend template (Jinja2)
-└── /static # (Optional) CSS/JS files
-
-
-
----
-
 ##  Setup Instructions
 
 ### 1. Clone the Repo
